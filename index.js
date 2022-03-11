@@ -11,6 +11,9 @@ app.get('/search', function(req, res) {
     let terms = req.query.keyword
     console.log(terms);
     db.search(terms).then((results) => {
+        res.header('Access-Control-Allow-Origin', "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
         res.send(results)
     }).catch((rejection) =>{
         res.status(500).send("Error: Something went wrong: "+rejection)
