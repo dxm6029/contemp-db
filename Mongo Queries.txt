@@ -1,0 +1,23 @@
+Expected from group discussion
+
+Construct mongo find query based on selection from list (based on id or some other identifier)
+Construct mongo find query that displays largest win/defeat and match info 
+Construct mongo insert query that adds comments to the database
+Construct mongo find query that displays all comments for selected element/match
+
+
+Find queries:
+1. From list - using venue to start
+    - db.Matches.find({venue: {[insert search variable]}})
+2. display largest win/defeat as well as match info
+    - SET TO VARIABLE A db.Matches.find({home_score})
+    - SET TO VARIABLE B db.Matches.find({away_score})
+    - db.Matches.find({$where: function{
+        if(math.sign(A-B) != -1 || math.sign(A-B) != 0){
+            return this.[whatever match info we want]
+        }else if(math.sign(B-A) != -1 || math.sign(B-A) != 0){
+            return this.[whatever match info we want]
+        }else{
+            return "It was a draw"
+        }
+    }})
