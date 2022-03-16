@@ -33,6 +33,21 @@ app.get('/comments', function(req, res) {
     })
 });
 
+app.post('/comments', function(req, res) {
+    let id = req.query.id
+    let comment = req.query.comment
+    console.log(id);
+    console.log(comment)
+    db.addComment(id, comment).then((results) => {
+        res.header('Access-Control-Allow-Origin', "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.send(results)
+    }).catch((rejection) =>{
+        res.status(500).send("Error: Something went wrong: "+rejection)
+    })
+});
+
 app.listen(port, () => {
     console.log(`listening on localhost:${port}`)
 })

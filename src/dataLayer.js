@@ -51,12 +51,27 @@ var DataLayer = function(){
         }
     }
 
+    async function addComment(matchID, comment) {
+        const obj = {id: Number(matchID), comment: comment};
+
+        let result = await mongo.getDB().collection("Comments").insertOne(obj, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+        });
+        if(result){
+            console.log(`Inserted comment \''${comment}'\' for the match with id '${matchID}':`);
+        }
+    }
+
     return {
         search: function(keyword) {
             return search(keyword)
         },
         getComments: function(matchID){
             return getComments(matchID)
+        },
+        addComment: function(matchID, comment){
+            return addComment(matchID, comment)
         }
     }
 }
