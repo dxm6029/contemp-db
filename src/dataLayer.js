@@ -33,9 +33,30 @@ var DataLayer = function(){
         }
     }
 
+    async function getComments(matchID) {
+
+        const query = {id: {$eq: Number(matchID)}};
+
+        const options = {
+            projection: { _id: 0, id: 1, comment: 1 },
+          };
+
+        let result = await mongo.getDB().collection("Comments").find(query, options).toArray();
+        if (result) {
+            console.log(`Found comments for the match with id '${matchID}':`);
+            console.log(result);
+            return result;
+        } else {
+            console.log(`No comments found for the match with the id '${matchID}'`);
+        }
+    }
+
     return {
         search: function(keyword) {
             return search(keyword)
+        },
+        getComments: function(matchID){
+            return getComments(matchID)
         }
     }
 }
