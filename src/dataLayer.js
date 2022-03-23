@@ -9,6 +9,21 @@ var DataLayer = function(){
     mongo.init()
 
 
+
+    async function getItemById(id){
+        let result = await mongo.getDB().collection("Matches").findOne({ id: {$eq: Number(id)}});
+
+        if (result) {
+            console.log(`Found a match in the collection with id '${id}':`);
+            console.log(result);
+            return result;
+        } else {
+            console.log(`No match with the id '${id}'`);
+        }
+
+    }
+
+
     async function search(keyword) {
         let regex = new RegExp(`\\b${keyword}.`, "i")
 
@@ -72,6 +87,9 @@ var DataLayer = function(){
         },
         addComment: function(matchID, comment){
             return addComment(matchID, comment)
+        },
+        getItemById: function(id){
+            return getItemById(id)
         }
     }
 }
