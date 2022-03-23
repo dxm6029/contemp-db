@@ -33,6 +33,23 @@ app.get('/comments', function(req, res) {
     })
 });
 
+
+app.get("/match", async function (req,res){
+    let id = req.query.id;
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    try {
+        let result = await db.getItemById(id);
+        res.send(result)
+    }
+    catch(err){
+        res.send(err);
+    }
+
+
+});
+
 app.post('/comments', function(req, res) {
     let id = req.query.id
     let comment = req.query.comment
