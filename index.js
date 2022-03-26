@@ -75,7 +75,7 @@ app.get('/image', function(req, res){
         res.header('Access-Control-Allow-Origin', "*");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
-        res.header('Content-Type', "application/xhtml+xm")
+        res.header('Content-Type', "application/xhtml+xm");
         res.send(results)
     }).catch((rejection) =>{
         res.status(500).send("Error: Something went wrong: "+rejection)

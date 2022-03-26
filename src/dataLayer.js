@@ -83,14 +83,15 @@ var DataLayer = function(){
         var bucket = new mongodb.GridFSBucket(mongo.getDB());
         console.log("bucket")
     
-        let stream = bucket.openDownloadStreamByName(stadium + '.jpg');
+        let stream = bucket.openDownloadStreamByName(stadium+ '.jpg');
         console.log("stream")
         stream.pipe(
-            fs.createWriteStream(stadium+'.jpg')).on('error',
+            fs.createWriteStream("image"+'.jpg')).on('error',
             function(error) {
                 console.log('Error:-', error);
             }).on('finish', function() {
             console.log('done!');
+            return {img: "image.jpg"};
         }); 
     }
 
