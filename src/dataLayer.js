@@ -1,4 +1,6 @@
-
+var mongodb = require('mongodb');
+var mongoClient = mongodb.MongoClient;
+var fs = require('fs');
 
 
 var DataLayer = function(){
@@ -7,8 +9,6 @@ var DataLayer = function(){
     const mongo = new MongoConnect()
 
     mongo.init()
-
-
 
     async function getItemById(id){
         let result = await mongo.getDB().collection("Matches").findOne({ id: {$eq: Number(id)}});
@@ -78,6 +78,23 @@ var DataLayer = function(){
         }
     }
 
+    async function getImage(stadium) {
+        
+        var bucket = new mongodb.GridFSBucket(mongo.getDB());
+        console.log("bucket")
+    
+        let stream = bucket.openDownloadStreamByName(stadium + '.jpg');
+        console.log("stream")
+        stream.pipe(
+            fs.createWriteStream(stadium+'.jpg')).on('error',
+            function(error) {
+                console.log('Error:-', error);
+            }).on('finish', function() {
+            console.log('done!');
+        }); 
+    }
+
+
     return {
         search: function(keyword) {
             return search(keyword)
@@ -90,6 +107,9 @@ var DataLayer = function(){
         },
         getItemById: function(id){
             return getItemById(id)
+        },
+        getImage: function(stadium){
+            return getImage(stadium)
         }
     }
 }

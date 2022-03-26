@@ -7,6 +7,9 @@ const port = 8080;
 
 app.use(express.json());
 
+const path = require('path')
+app.use(express.static(__dirname))
+
 app.get('/search', function(req, res) {
     let terms = req.query.keyword
     console.log(terms);
@@ -59,6 +62,20 @@ app.post('/comments', function(req, res) {
         res.header('Access-Control-Allow-Origin', "*");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.send(results)
+    }).catch((rejection) =>{
+        res.status(500).send("Error: Something went wrong: "+rejection)
+    })
+});
+
+app.get('/image', function(req, res){
+    let stadium = req.query.stadium
+    console.log("stadium: " + stadium);
+    db.getImage(stadium).then((results) => {
+        res.header('Access-Control-Allow-Origin', "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.header('Content-Type', "application/xhtml+xm")
         res.send(results)
     }).catch((rejection) =>{
         res.status(500).send("Error: Something went wrong: "+rejection)
