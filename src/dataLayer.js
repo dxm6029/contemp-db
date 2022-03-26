@@ -86,12 +86,11 @@ var DataLayer = function(){
         let stream = bucket.openDownloadStreamByName(stadium+ '.jpg');
         console.log("stream")
         stream.pipe(
-            fs.createWriteStream("image"+'.jpg')).on('error',
+            fs.createWriteStream("../contemp-db-frontend/" + stadium+'.jpg')).on('error',
             function(error) {
                 console.log('Error:-', error);
             }).on('finish', function() {
             console.log('done!');
-            return {img: "image.jpg"};
         }); 
     }
 
